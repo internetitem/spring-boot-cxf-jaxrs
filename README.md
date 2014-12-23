@@ -5,9 +5,19 @@ Spring Boot integration for CXF, specifically for JAX-RS.
 
 ## Usage ##
 
+Add the following to your `pom.xml` (updating `<version>` where appropriate):
+
+    <dependency>
+        <groupId>com.internetitem.spring</groupId>
+        <artifactId>spring-boot-cxf-jaxrs</artifactId>
+        <version>1.0</version>
+    </dependency>
+
+Then, add the following to a `@Configuration` class:
+
     @Import(com.internetitem.spring.cxf.CxfConfiguration.class)
 
-All beans tagged with `@Path` will be added as JAX-RS Services. All beans tagged with `@Provider` will be added as JAX-RS Providers.
+Now, all beans tagged with `@Path` will be automatically added as JAX-RS Services. All beans tagged with `@Provider` will be added as JAX-RS Providers.
 
 ## Dependencies ##
 
