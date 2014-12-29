@@ -2,6 +2,7 @@ package com.internetitem.spring.cxf;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.cxf.bus.spring.SpringBus;
@@ -32,9 +33,6 @@ public class CxfConfiguration {
 	@Autowired
 	private ApplicationContext ctx;
 
-	@Autowired
-	private ObjectMapper objectMapper;
-
 	@Value("${cxf.path:/services/*}")
 	private String cxfPath;
 
@@ -42,7 +40,7 @@ public class CxfConfiguration {
 	private boolean logRequests;
 
 	@Bean
-	public ServletRegistrationBean getCxfServletRegistrationBean() {
+	public ServletRegistrationBean cxfServletRegistrationBean() {
 		return new ServletRegistrationBean(new CXFServlet(), cxfPath);
 	}
 
@@ -71,16 +69,16 @@ public class CxfConfiguration {
 	}
 
 	@Bean
-	@ConditionalOnMissingBean(JacksonJaxbJsonProvider.class)
-	public JacksonJaxbJsonProvider defaultJsonProvider() {
+	@ConditionalOnMissingBean
+	public JacksonJsonProvider jsonProvider(ObjectMapper objectMapper) {
 		JacksonJaxbJsonProvider provider = new JacksonJaxbJsonProvider();
 		provider.setMapper(objectMapper);
 		return provider;
 	}
 
 	@Bean
-	@ConditionalOnMissingBean(ObjectMapper.class)
-	public ObjectMapper defaultMapper() {
+	@ConditionalOnMissingBean
+	public ObjectMapper objectMapper() {
 		return new ObjectMapper();
 	}
 
